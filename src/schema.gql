@@ -138,7 +138,6 @@ type Mutation {
   createNewsMonitor(inputs: CreateNewsMonitor): NewMonitor!
   updateNewMonitor(inputs: UpdateNewsMonitor): NewMonitor!
   deleteBrand(id: String!): Brand
-  deleteInfluencer(id: String!): Influencer
   deleteNewMonitor(id: String!): NewMonitor
   signOut(id: String!): Token
 }
