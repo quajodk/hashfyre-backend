@@ -13,5 +13,5 @@ module.exports = {
   Token,
   Campaign,
   NewsMonitor,
-  Metric,
+  Metric
 };
