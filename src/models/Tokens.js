@@ -23,7 +23,7 @@ const TokenSchema = new Schema({
     default: false,
   },
   createdAt: {
-    type: Date,
+    type: String,
     default: Date.now(),
   },
   updatedAt: Date,

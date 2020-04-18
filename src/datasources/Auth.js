@@ -14,10 +14,10 @@ class Auth extends DataSource {
   async login({inputs}) {
     try {
       const {email, password, userType} = inputs;
-      _io.validate([email, passwords]);
+      _io.validate([email, password]);
       // check if user exist
       const userExist = await this.store.User.findOne({email});
-      console.log(userExist);
+
       if (!userExist) {
         throw new Error('No user found');
       }
@@ -50,9 +50,7 @@ class Auth extends DataSource {
   async createUser({inputs}) {
     try {
       const {email, password, userType} = inputs;
-      _io.validate([email, password, userType]);
-
-      console.log(this.store.User, 'this.store');
+      _io.validate([email, password]);
 
       //  check if email exist
       const isAvailable = await this.store.User.findOne({email});
@@ -74,7 +72,7 @@ class Auth extends DataSource {
 
       // if user is brand update brand data
       if (userType === 'brand') {
-        await Brand.updateOne(
+        await this.store.Brand.updateOne(
           {email},
           {
             $set: {

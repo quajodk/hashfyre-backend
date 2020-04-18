@@ -13,7 +13,7 @@ type Token {
   userType: String!
   isActive: Boolean
   login: Boolean
-  creatdAt: String
+  creatdAt: String!
   updatedAt: String
 }
 
