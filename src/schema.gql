@@ -109,8 +109,8 @@ type NewMonitor {
 # ROOT TYPE #
 
 type Query {
-  users: [User!]
-  user(id: String!): User!
+  getUsers: [User!]
+  getUser(id: String!): User!
   getCampaigns: [Campaign!]
   getCampaign(id: String!): Campaign!
   getBrand(id: String!): Brand!
@@ -119,7 +119,7 @@ type Query {
   getInfluencers: [Influencer!]
   getNewsMonitor(id: String!): NewMonitor!
   getNewsMonitors: [NewMonitor!]
-  campaignMetric(campaignId: String!): CampaignMetric
+  getCampaignMetric(campaignId: String!): CampaignMetric
 }
 
 type Mutation {
@@ -130,15 +130,20 @@ type Mutation {
   createBrand(inputs: CreateBrand): Brand!
   updateBrand(inputs: updateBrand): Brand
   createInfluencer(inputs: CreateInfluencer): Influencer!
-  UpdateInfluencer(inputs: UpdateInfluencer): Influencer
+  updateInfluencer(inputs: UpdateInfluencer): Influencer
   createCampaign(inputs: CreateCampaign): Campaign!
   updateCampaign(inputs: UpdateCampaign): Campaign
   createMetric(inputs: CreateMetric): Metric!
   updateMetric(inputs: UpdateMetric): Metric
   createNewsMonitor(inputs: CreateNewsMonitor): NewMonitor!
-  updateNewMonitor(inputs: UpdateNewsMonitor): NewMonitor!
+  updateNewsMonitor(inputs: UpdateNewsMonitor): NewMonitor!
   deleteBrand(id: String!): Brand
+<<<<<<< HEAD
   deleteNewMonitor(id: String!): NewMonitor
+=======
+  deleteInfluencer(id: String!): Influencer
+  deleteNewsMonitor(id: String!): NewMonitor
+>>>>>>> 1040ae33b9125f58da1c56fc85f207c5f41359aa
   signOut(id: String!): Token
 }
 
