@@ -1,0 +1,292 @@
+# OBJECT TYPES #
+
+type User {
+  _id: ID!
+  email: String!
+  userType: String!
+}
+
+type Token {
+  _id: ID!
+  user: User!
+  token: String!
+  userType: String!
+  isActive: Boolean
+  login: Boolean
+  creatdAt: String
+  updatedAt: String
+}
+
+type Brand {
+  _id: ID!
+  user: User
+  name: String!
+  email: String!
+  phone: String!
+  brandName: String!
+  brandWebsite: String
+  campaignBudget: String
+  isPremium: Boolean
+  brandType: String
+  campaigns: [Campaign]
+  createdAt: String
+  updatedAt: String
+}
+
+type Influencer {
+  _id: ID!
+  user: User
+  email: String!
+  name: String
+  socialMediaHandles: [SocialHandle]
+  joinedCampaign: [Campaign]
+  creatdAt: String
+  updatedAt: String
+}
+
+type SocialHandle {
+  platform: String
+  handle: String
+}
+
+type Campaign {
+  _id: ID!
+  active: Boolean!
+  campaignId: String!
+  creator: Brand
+  name: String!
+  description: String
+  dateCreated: String
+  objective: String
+  modeOfReward: String
+  budget: Int
+  budgetCurrency: String
+  targetAudience: [MapType]
+  campaignType: String
+  content: [MapType]
+  bannerImage: String
+  numOfInfluencers: String
+  applyEndDate: String
+  endDate: String
+  startDate: String
+  rules: String
+  published: Boolean
+  influencers: [CampaignInfluencer]
+  campaignMetrics: [Metric]
+}
+
+type MapType {
+  key: String
+  value: String
+}
+
+type CampaignInfluencer {
+  influencer: Influencer
+  postLink: [MapType]
+}
+
+type Metric {
+  _id: ID!
+  campaignId: Campaign!
+  platform: [String]
+  campaignLinks: [CampaignInfluencer]
+  metrics: [CampaignMetric]
+}
+
+type CampaignMetric {
+  platform: String
+  details: [MapType]
+}
+
+type NewMonitor {
+  _id: ID!
+  title: String!
+  images: [String]
+  source: String
+  message: String
+}
+
+# ROOT TYPE #
+
+type Query {
+  users: [User!]
+  user(id: String!): User!
+  getCampaigns: [Campaign!]
+  getCampaign(id: String!): Campaign!
+  getBrand(id: String!): Brand!
+  getBrands: [Brand!]
+  getInfluencer(id: String!): Influencer!
+  getInfluencers: [Influencer!]
+  getNewsMonitor(id: String!): NewMonitor!
+  getNewsMonitors: [NewMonitor!]
+  campaignMetric(campaignId: String!): CampaignMetric
+}
+
+type Mutation {
+  login(inputs: UserInput): Token!
+  createUser(inputs: UserInput): User!
+  updateUser(inputs: UserUpdate): User
+  deleteUser(id: String): User
+  createBrand(inputs: CreateBrand): Brand!
+  updateBrand(inputs: updateBrand): Brand
+  createInfluencer(inputs: CreateInfluencer): Influencer!
+  UpdateInfluencer(inputs: UpdateInfluencer): Influencer
+  createCampaign(inputs: CreateCampaign): Campaign!
+  updateCampaign(inputs: UpdateCampaign): Campaign
+  createMetric(inputs: CreateMetric): Metric!
+  updateMetric(inputs: UpdateMetric): Metric
+  createNewsMonitor(inputs: CreateNewsMonitor): NewMonitor!
+  updateNewMonitor(inputs: UpdateNewsMonitor): NewMonitor!
+  deleteBrand(id: String!): Brand
+  deleteInfluencer(id: String!): Influencer
+  deleteNewMonitor(id: String!): NewMonitor
+  signOut(id: String!): Token
+}
+
+# INPUT TYPES #
+
+input UserInput {
+  email: String!
+  password: String!
+  userType: String!
+}
+
+input UserUpdate {
+  id: String!
+  email: String!
+  password: String!
+}
+
+input CreateBrand {
+  name: String!
+  email: String!
+  phone: String!
+  brandName: String!
+  brandWebsite: String
+  isPremium: Boolean
+  brandType: String
+  campaignBudget: String
+}
+
+input CreateInfluencer {
+  email: String!
+  name: String
+  password: String!
+  socialMediaHandles: [SocialHandleInput]
+}
+
+input CreateCampaign {
+  creator: String!
+  campaignId: String!
+  name: String!
+  description: String!
+  dateCreated: String
+  objective: String
+  modeOfReward: String
+  budgetAmount: String!
+  budgetCurrency: String
+  audience: [MapTypeInput]
+  campaignType: String
+  content: [MapTypeInput]
+  imageUrl: String
+  influencerCount: String
+  endDate: String
+  startDate: String
+  applicationDeadline: String
+  rules: String
+}
+
+input CreateMetric {
+  campaignId: String
+  platform: [String]
+  campaignLinks: [CampaignInfluencerInput]
+  metrics: [CampaignMetricInput]
+}
+
+input CreateNewsMonitor {
+  title: String!
+  images: [String]
+  source: String
+  message: String
+}
+
+input updateBrand {
+  _id: ID!
+  userId: String
+  name: String
+  email: String
+  brandName: String
+  phone: String
+  brandWebsite: String
+  isPremium: Boolean
+  brandType: String
+}
+
+input UpdateInfluencer {
+  _id: ID!
+  email: String!
+  name: String
+  socialMediaHandles: [SocialHandleInput]
+  joinedCampaign: [String]
+  updatedAt: String
+}
+
+input UpdateCampaign {
+  _id: ID!
+  creator: String
+  name: String
+  description: String
+  dateCreated: String
+  objective: String
+  modeOfReward: String
+  budget: Int
+  budgetCurrency: String
+  targetAudience: [MapTypeInput]
+  campaignType: String
+  content: [MapTypeInput]
+  bannerImage: String
+  numOfInfluencers: String
+  endDate: String
+  startDate: String
+  applyEndDate: String
+  rules: String
+  published: Boolean
+  influencers: [CampaignInfluencerInput]
+  campaignMetrics: [String]
+}
+
+input UpdateMetric {
+  _id: ID!
+  campaignId: String
+  platform: [String]
+  campaignLinks: [CampaignInfluencerInput]
+  metrics: [CampaignMetricInput]
+}
+
+input UpdateNewsMonitor {
+  _id: ID!
+  title: String!
+  images: [String]
+  source: String
+  message: String
+}
+
+input MapTypeInput {
+  key: String
+  value: String
+}
+
+input CampaignInfluencerInput {
+  influencer: String
+  postLink: [MapTypeInput]
+}
+
+input SocialHandleInput {
+  platform: String
+  handle: String
+}
+
+input CampaignMetricInput {
+  platform: String
+  details: [MapTypeInput]
+}
