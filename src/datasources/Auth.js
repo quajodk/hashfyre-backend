@@ -1,8 +1,8 @@
-const { DataSource } = require("apollo-datasource");
-const _io = require("../../utils/_helpers");
+const {DataSource} = require('apollo-datasource');
+const _io = require('../../utils/_helpers');
 
 class Auth extends DataSource {
-  constructor({ store }) {
+  constructor({store}) {
     super();
     this.store = store;
   }
@@ -11,21 +11,21 @@ class Auth extends DataSource {
     this.context = config.context;
   }
 
-  async login({ inputs }) {
+  async login({inputs}) {
     try {
-      const { email, password, userType } = inputs;
-      _io.validate([...inputs]);
+      const {email, password, userType} = inputs;
+      _io.validate([email, passwords]);
       // check if user exist
-      const userExist = await this.store.User.findOne({ email });
+      const userExist = await this.store.User.findOne({email});
       console.log(userExist);
       if (!userExist) {
-        throw new Error("No user found");
+        throw new Error('No user found');
       }
 
       // verify password
       const isPassword = userExist.password === _io.hash(password);
       if (!isPassword) {
-        throw new Error("Invalid password");
+        throw new Error('Invalid password');
       }
 
       // create token
@@ -39,29 +39,31 @@ class Auth extends DataSource {
       });
 
       return await this.store.Token.populate(userToken, {
-        path: "user",
-        model: "User",
+        path: 'user',
+        model: 'User',
       });
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async createUser({ inputs }) {
+  async createUser({inputs}) {
     try {
-      const { email, password, userType } = inputs;
-      _io.validate([...inputs]);
+      const {email, password, userType} = inputs;
+      _io.validate([email, password, userType]);
+
+      console.log(this.store.User, 'this.store');
 
       //  check if email exist
-      const isAvailable = await this.store.User.findOne({ email });
+      const isAvailable = await this.store.User.findOne({email});
       if (isAvailable) {
-        throw new Error("User with email already exist");
+        throw new Error('User with email already exist');
       }
 
       //   hash password and create user
       const hashPassword = _io.hash(password);
       if (!hashPassword) {
-        throw new Error("Something went wrong on the server ...try again");
+        throw new Error('Something went wrong on the server ...try again');
       }
 
       const newUser = await this.store.User.create({
@@ -71,9 +73,9 @@ class Auth extends DataSource {
       });
 
       // if user is brand update brand data
-      if (userType === "brand") {
+      if (userType === 'brand') {
         await Brand.updateOne(
-          { email },
+          {email},
           {
             $set: {
               user: newUser._id,
@@ -88,14 +90,14 @@ class Auth extends DataSource {
     }
   }
 
-  async signOut({ id }) {
+  async signOut({id}) {
     try {
-      const isToken = await this.store.Token.findById({ _id: id });
+      const isToken = await this.store.Token.findById({_id: id});
       if (isToken) {
-        throw new Error("There is no current token");
+        throw new Error('There is no current token');
       }
 
-      await this.store.Token.deleteOne({ _id: id });
+      await this.store.Token.deleteOne({_id: id});
       return {};
     } catch (error) {
       throw new Error(error);
