@@ -38,7 +38,7 @@ class Auth extends DataSource {
         isActive: true,
       });
 
-      return await this.store.Token.populate(userToken, {
+      return this.store.Token.populate(userToken, {
         path: 'user',
         model: 'User',
       });

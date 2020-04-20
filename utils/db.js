@@ -16,6 +16,7 @@ const createStore = () => {
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
+        useFindAndModify: false,
       })
       .then((conn) => {
         console.log(`MongoDB Connected: ${conn.connection.host}`);

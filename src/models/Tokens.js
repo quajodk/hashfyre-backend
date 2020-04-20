@@ -23,10 +23,10 @@ const TokenSchema = new Schema({
     default: false,
   },
   createdAt: {
-    type: String,
+    type: Date,
     default: Date.now(),
   },
   updatedAt: Date,
 });
 
-module.exports = mongoose.model('Tokens', TokenSchema);
+module.exports = mongoose.model('Token', TokenSchema);

@@ -11,7 +11,7 @@ const InfluencerSchema = new Schema({
     required: true,
   },
   name: String,
-  socialMediaHandle: {
+  socialMediaHandles: {
     type: Map,
     of: String,
   },
@@ -28,4 +28,4 @@ const InfluencerSchema = new Schema({
   updatedAt: Date,
 });
 
-module.exports = mongoose.model('Influencers', InfluencerSchema);
+module.exports = mongoose.model('Influencer', InfluencerSchema);

@@ -1,8 +1,8 @@
-const { DataSource } = require("apollo-datasource");
-const _io = require("../../utils/_helpers");
+const {DataSource} = require('apollo-datasource');
+const _io = require('../../utils/_helpers');
 
 class Brand extends DataSource {
-  constructor({ store }) {
+  constructor({store}) {
     super();
     this.store = store;
   }
@@ -11,7 +11,7 @@ class Brand extends DataSource {
     this.context = config.context;
   }
 
-  async createBrand({ inputs }) {
+  async createBrand({inputs}) {
     try {
       const {
         name,
@@ -27,9 +27,9 @@ class Brand extends DataSource {
       _io.validate([name, email, phone, brandName]);
 
       // check if brand exist
-      const brandExist = await this.store.Brand.findOne({ email });
+      const brandExist = await this.store.Brand.findOne({email});
       if (brandExist) {
-        throw new Error("Brand already exist");
+        throw new Error('Brand already exist');
       }
 
       // create brand
@@ -49,45 +49,50 @@ class Brand extends DataSource {
     }
   }
 
-  async updateBrand({ inputs }) {
+  async updateBrand({inputs}) {
     try {
-      const { _id } = inputs;
+      const {_id} = inputs;
       // check for brand
-      const isBrand = await this.store.Brand.findById({ _id });
+      const isBrand = await this.store.Brand.findById({_id});
 
       if (!isBrand) {
-        throw new Error("Brand was not found");
+        throw new Error('Brand was not found');
       }
 
+      inputs.updatedAt = Date.now();
+
       const updatedBrand = await this.store.Brand.findOneAndUpdate(
-        { _id },
+        {_id},
         inputs,
         {
           new: true,
         }
       );
 
-      return Brand.populate(updatedBrand, { path: "user", model: "User" });
+      return await this.store.Brand.populate(updatedBrand, {
+        path: 'user',
+        model: 'User',
+      });
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async deleteBrand({ id }) {
+  async deleteBrand({id}) {
     try {
       // check for brand
-      const brandCheck = await this.store.Brand.findById({ _id: id });
+      const brandCheck = await this.store.Brand.findById({_id: id});
       if (!brandCheck) {
-        throw new Error("Brand not found");
+        throw new Error('Brand not found');
       }
 
-      const deleted = await this.store.Brand.deleteOne({ _id: id });
+      const deleted = await this.store.Brand.deleteOne({_id: id});
       if (!deleted) {
-        throw new Error("Something went wrong try again later");
+        throw new Error('Something went wrong try again later');
       }
       return {
         success: true,
-        message: "Brand deleted successfully",
+        message: 'Brand deleted successfully',
       };
     } catch (error) {
       throw new Error(error);
@@ -99,12 +104,12 @@ class Brand extends DataSource {
       const brands = await this.store.Brand.find({});
       return brands.map((brand) => {
         const addUser = this.store.Brand.populate(brand, {
-          path: "user",
-          model: "User",
+          path: 'user',
+          model: 'User',
         });
         return this.store.Brand.populate(addUser, {
-          path: "campaigns",
-          model: "Campaign",
+          path: 'campaigns',
+          model: 'Campaign',
         });
       });
     } catch (error) {
@@ -112,21 +117,21 @@ class Brand extends DataSource {
     }
   }
 
-  async getBrand({ id }) {
+  async getBrand({id}) {
     try {
       // check brand
-      const isBrandExist = await this.store.Brand.findById({ _id: id });
+      const isBrandExist = await this.store.Brand.findById({_id: id});
       if (!isBrandExist) {
-        throw new Error("Brand was not found");
+        throw new Error('Brand was not found');
       }
 
       const brandWithUser = this.store.Brand.populate(isBrandExist, {
-        path: "user",
-        model: "User",
+        path: 'user',
+        model: 'User',
       });
       return this.store.Brand.populate(brandWithUser, {
-        path: "campaigns",
-        model: "Campaign",
+        path: 'campaigns',
+        model: 'Campaign',
       });
     } catch (error) {
       throw new Error(error);

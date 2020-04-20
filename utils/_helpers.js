@@ -54,10 +54,17 @@ _helper.convert = (arg) => {
 _helper.revertToArray = (arg) => {
   return Object.entries(arg).map((value) => {
     const obj = {};
-    obj.key = value[0];
-    obj.value = value[1];
+    obj.platform = value[0];
+    obj.handle = value[1];
     return obj;
   });
+};
+
+_helper.MapToObj = (arg) => {
+  return Array.from(arg).reduce(
+    (obj, [platform, handle]) => Object.assign(obj, {[platform]: handle}),
+    {}
+  );
 };
 
 module.exports = _helper;
