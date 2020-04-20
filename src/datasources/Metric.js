@@ -73,10 +73,16 @@ class Metric extends DataSource {
         model: 'Campaign',
       });
 
-      return await this.store.Campaign.populate(withCampaign, {
-        path: 'creator',
-        model: 'Brand',
-      });
+      console.log(withCampaign);
+
+      // revert to array of key value
+      const kpiAudience = _io.MapToObj(withCampaign._doc.targetAudience);
+      const postContent = _io.MapToObj(withCampaign._doc.content);
+
+      withCampaign._doc.targetAudience = _io.revertToArray(kpiAudience);
+      withCampaign._doc.content = _io.revertToArray(postContent);
+
+      return withCampaign;
     } catch (error) {
       throw new Error(error);
     }
