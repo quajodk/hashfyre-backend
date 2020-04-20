@@ -43,4 +43,4 @@ const BrandsSchema = new Schema({
   updatedAt: Date,
 });
 
-module.exports = mongoose.model('Brands', BrandsSchema);
+module.exports = mongoose.model('Brand', BrandsSchema);

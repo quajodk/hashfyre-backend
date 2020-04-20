@@ -16,7 +16,7 @@ const MetricSchema = new Schema({
       postLink: mongoose.Schema.Types.Mixed,
     },
   ],
-  metric: [
+  metrics: [
     {
       platform: String,
       details: mongoose.Schema.Types.Mixed,

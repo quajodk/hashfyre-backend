@@ -1,7 +1,7 @@
-const { DataSource } = require("apollo-datasource");
+const {DataSource} = require('apollo-datasource');
 
 class User extends DataSource {
-  constructor({ store }) {
+  constructor({store}) {
     super();
     this.store = store;
   }
@@ -10,18 +10,18 @@ class User extends DataSource {
     this.context = config.context;
   }
 
-  async updateUser({ inputs }) {
+  async updateUser({inputs}) {
     try {
-      const { id } = inputs;
+      const {id} = inputs;
       // check if user exist
-      const isUser = await this.store.User.findById({ _id: id });
+      const isUser = await this.store.User.findById({_id: id});
       if (!isUser) {
-        throw new Error("User not found");
+        throw new Error('User not found');
       }
 
       // update user
       const updatedUser = await this.store.User.findOneAndUpdate(
-        { _id: id },
+        {_id: id},
         inputs,
         {
           new: true,
@@ -34,22 +34,22 @@ class User extends DataSource {
     }
   }
 
-  async deleteUser({ id }) {
+  async deleteUser({id}) {
     try {
       //   check for user
-      const user = await this.store.User.findById({ _id: id });
+      const user = await this.store.User.findById({_id: id});
 
       if (!user) {
-        throw new Error("User not found");
+        throw new Error('User not found');
       }
 
-      const deleted = await this.store.User.deleteOne({ _id: id });
+      const deleted = await this.store.User.deleteOne({_id: id});
       if (!deleted) {
-        throw new Error("Something went wrong try again later");
+        throw new Error('Something went wrong try again later');
       }
       return {
         success: true,
-        message: "User deleted successfully",
+        message: 'User deleted successfully',
       };
     } catch (error) {
       throw new Error(error);
@@ -59,8 +59,8 @@ class User extends DataSource {
   async getUsers() {
     try {
       const users = await this.store.User.find({});
-      if (!user) {
-        throw new Error("No available users");
+      if (!users) {
+        throw new Error('No available users');
       }
 
       return users;
@@ -69,11 +69,11 @@ class User extends DataSource {
     }
   }
 
-  async getUser({ id }) {
+  async getUser({id}) {
     try {
-      const user = await this.store.User.findById({ _id: id });
+      const user = await this.store.User.findById({_id: id});
       if (!user) {
-        throw new Error("User not found");
+        throw new Error('User not found');
       }
 
       return user;

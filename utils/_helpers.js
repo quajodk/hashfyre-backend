@@ -55,14 +55,14 @@ _helper.revertToArray = (arg) => {
   return Object.entries(arg).map((value) => {
     const obj = {};
     obj.platform = value[0];
-    obj.handle = value[1];
+    obj.value = value[1];
     return obj;
   });
 };
 
 _helper.MapToObj = (arg) => {
   return Array.from(arg).reduce(
-    (obj, [platform, handle]) => Object.assign(obj, {[platform]: handle}),
+    (obj, [platform, value]) => Object.assign(obj, {[platform]: value}),
     {}
   );
 };

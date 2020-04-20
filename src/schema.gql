@@ -88,7 +88,7 @@ type CampaignInfluencer {
 
 type Metric {
   _id: ID!
-  campaignId: Campaign!
+  campaign: Campaign!
   platform: [String]
   campaignLinks: [CampaignInfluencer]
   metrics: [CampaignMetric]
@@ -154,8 +154,8 @@ input UserInput {
 
 input UserUpdate {
   id: String!
-  email: String!
-  password: String!
+  email: String
+  password: String
 }
 
 input CreateBrand {
@@ -198,8 +198,8 @@ input CreateCampaign {
 }
 
 input CreateMetric {
-  campaignId: String
-  platform: [String]
+  campaign: String!
+  platforms: [String]
   campaignLinks: [CampaignInfluencerInput]
   metrics: [CampaignMetricInput]
 }
@@ -233,7 +233,6 @@ input UpdateInfluencer {
 
 input UpdateCampaign {
   _id: ID!
-  creator: String
   name: String
   description: String
   dateCreated: String
@@ -252,13 +251,12 @@ input UpdateCampaign {
   rules: String
   published: Boolean
   influencers: [CampaignInfluencerInput]
-  campaignMetrics: [String]
 }
 
 input UpdateMetric {
   _id: ID!
-  campaignId: String
-  platform: [String]
+  campaign: String
+  platforms: [String]
   campaignLinks: [CampaignInfluencerInput]
   metrics: [CampaignMetricInput]
 }
